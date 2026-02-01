@@ -1,0 +1,11 @@
+import { defineConfig } from 'eslint/config';
+
+export default defineConfig({
+  root: true,
+  extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
+  parserOptions: {
+    project: './tsconfig.json',
+  },
+  ignores: ['.next/**', 'out/**', 'build/**', 'node_modules/**'],
+});
+
