@@ -1,0 +1,166 @@
+'use client';
+import { getCandlestickConfig, getChartConfig, PERIOD_BUTTONS, PERIOD_CONFIG } from '@/constants';
+import { fetcher } from '@/lib/coingeko.actions';
+import { convertOHLCData } from '@/lib/utils';
+import { CandlestickSeries, createChart, IChartApi, ISeriesApi } from 'lightweight-charts';
+import { ChartBarIcon } from 'lucide-react';
+import React, { useEffect, useRef, useState, useTransition } from 'react'
+
+const CandlestickChart = ({children,data,coinId,height = 360,initialPeriod='daily'}:CandlestickChartProps) => {
+
+  const chartContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const chartRef = useRef<IChartApi | null>(null);
+
+  const candleSeriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null);
+
+  const [loading, setLoading] = useState(false)
+  const [period, setPeriod] = useState('daily')
+  const [ohlcData, setohlcData] = useState<OHLCData[]>(data ?? [])
+
+  const [isPending, startTransition] = useTransition();
+
+  const fetchOHLCData = async (selectedPeriod:Period) => {
+
+    try {
+
+      const config = PERIOD_CONFIG[selectedPeriod];
+      const newData =  await fetcher<OHLCData[]>(`coins/${coinId}/ohlc`, {
+          vs_currency: 'usd',
+          days: config.days,
+          precision: 'full',
+        })
+
+        setohlcData(newData ?? []);
+
+
+      
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+  
+
+  const handlePeriodChange = (newPeriod:Period) => {
+  
+    if (newPeriod === period) {
+     return; 
+    }
+
+    startTransition(async ()=>{
+      setPeriod(newPeriod);
+    await fetchOHLCData(newPeriod);
+    })
+
+   
+
+    // todo update period state and fetch new data
+
+  }
+
+  useEffect(() => {
+    const container = chartContainerRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    const showTime = ['daily','weekly','monthly']
+
+    const chart = createChart(container, {
+
+      ...getChartConfig(height, showTime),
+      width: container.clientWidth,
+      height: height,
+   })
+
+   const series = chart.addSeries(CandlestickSeries,getCandlestickConfig());
+
+   series.setData(convertOHLCData(ohlcData));
+
+   chart.timeScale().fitContent();
+
+
+   chartRef.current = chart;
+   candleSeriesRef.current = series;
+
+   const observer = new ResizeObserver((entries) => {
+     if (!entries.length) {
+      return;
+     }
+
+     chart.applyOptions({ width: entries[0].contentRect.width });
+
+   });
+
+   observer.observe(container);
+
+
+   return () => {
+     observer.unobserve(container);
+     chart.remove();
+     chartRef.current = null;
+     candleSeriesRef.current = null;
+   }
+
+  }, [height])
+
+  useEffect(() => {
+
+    if (!candleSeriesRef.current) {
+      return;
+    }
+    
+    const convertedSeconds = ohlcData.map(item => [Math.floor(item[0]/1000),item[1],item[2],item[3],item[4]] as OHLCData);
+
+    const converted = convertOHLCData(convertedSeconds);
+
+    candleSeriesRef.current.setData(converted);
+
+    chartRef.current?.timeScale().fitContent();
+
+  
+ 
+  }, [ohlcData,period])
+  
+  
+  return (
+    <div id='candlestick-chart'>
+      <div className="chart-header">
+
+        <div className='flex-1'>
+            {children}
+        </div>
+
+
+      <div className='button-group'>
+    <span className='text-sm font-medium mx-2 text-purple-100/50'>
+    Period:</span>
+
+
+    {PERIOD_BUTTONS.map(({value,label}) => (
+
+      <button
+        key={value}
+        className={period === value ? 'config-button-active' : 'config-button'}
+        onClick={() => handlePeriodChange(value)}
+        disabled={loading}
+      >
+        {label}
+      </button>
+    ))}
+      </div>
+
+
+      
+
+
+      </div>
+
+      <div ref={chartContainerRef} className='chart' style={{height}}/>
+    </div>
+  )
+}
+
+export default CandlestickChart

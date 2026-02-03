@@ -8,7 +8,7 @@ import React, { Suspense } from 'react';
 
 const page = async () => {
   return (
-    <main>
+    <main className='p-10'>
       <section className="home-grid">
         <Suspense fallback={<CoinOverviewFallback />}>
           <CoinOverview />
