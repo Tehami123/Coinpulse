@@ -61,3 +61,65 @@ export const TrendingCoinsFallback = () => {
     </div>
   );
 };
+
+export const CategoriesFallback = () => {
+  const columns: DataTableColumn<any>[] = [
+    {
+      header: 'Category',
+      cellClassName: 'category-cell',
+      cell: () => (
+        <div className="name-link">
+          <div className={cn('skeleton name-image')} />
+          <div className={cn('skeleton name-line')} />
+        </div>
+      ),
+    },
+    {
+      header: 'Top Gainers',
+      cellClassName: 'top-gainers-cell',
+      cell: () => (
+        <div className="top-gainers">
+          <div className={cn('skeleton name-image')} />
+          <div className={cn('skeleton name-image')} />
+          <div className={cn('skeleton name-image')} />
+        </div>
+      ),
+    },
+    {
+      header: '24h Change',
+      cellClassName: 'change-cell',
+      cell: () => (
+        <div className="price-change">
+          <div className={cn('skeleton change-icon')} />
+          <div className={cn('skeleton change-line')} />
+        </div>
+      ),
+    },
+    {
+      header: 'Market Cap',
+      cellClassName: 'market-cap-cell',
+      cell: () => <div className={cn('skeleton price-line')} />,
+    },
+    {
+      header: '24h Volume',
+      cellClassName: 'volume-cell',
+      cell: () => <div className={cn('skeleton price-line')} />,
+    },
+  ];
+
+  return (
+    <div id="categories-fallback">
+      <h4>Top Categories</h4>
+      <div className="categories-table">
+        <DataTable
+          data={Array(6).fill({})}
+          columns={columns}
+          rowKey={(r, i) => i}
+          tableClassName="categories-table"
+          headerCellClassName="py-3"
+          bodyCellClassName="py-2"
+        />
+      </div>
+    </div>
+  );
+};
