@@ -10,8 +10,7 @@ const Navbar = () => {
     <nav>
       <Link
         className={cn('nav-link', {
-          'is-active': pathname === '/',
-          'is-home': true,
+          'is-home': pathname === '/',
         })}
         href="/"
       >
