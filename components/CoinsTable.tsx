@@ -31,11 +31,10 @@ export default function CoinsTable({
     {
       header: 'Rank',
       cellClassName: 'rank-cell',
-      cell: (coin) => (
-        <>
-          #{coin.market_cap_rank}
-          <Link href={`/coins/${coin.id}`} aria-label="View coin" />
-        </>
+      cell: (coins) => (
+        <Link href={`/coins/${coins.id}`} className="rank-link">
+          #{coins.market_cap_rank}
+        </Link>
       ),
     },
     {

@@ -1,6 +1,25 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #0f0f0f;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #2b2b2b;
+  border-radius: 8px;
+  border: 2px solid #0f0f0f; /* space around thumb */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #3a3a3a;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -616,8 +635,8 @@
       .rank-cell {
         @apply pl-5 max-w-20! py-5 font-medium text-purple-100;
 
-        a {
-          @apply absolute inset-0 z-10;
+        .rank-link {
+          @apply block w-full h-full flex items-center hover:text-white transition-colors;
         }
       }
 
