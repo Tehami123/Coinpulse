@@ -6,7 +6,7 @@ import { CandlestickSeries, createChart, IChartApi, ISeriesApi } from 'lightweig
 import { ChartBarIcon } from 'lucide-react';
 import React, { useEffect, useRef, useState, useTransition } from 'react'
 
-const CandlestickChart = ({children,data,coinId,height = 360,initialPeriod='daily'}:CandlestickChartProps) => {
+const CandlestickChart = ({children,data,coinId,height = 400,initialPeriod='daily'}:CandlestickChartProps) => {
 
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -126,7 +126,7 @@ const CandlestickChart = ({children,data,coinId,height = 360,initialPeriod='dail
   
   
   return (
-    <div id='candlestick-chart'>
+    <div id='candlestick-chart' className='rounded-lg'>
       <div className="chart-header">
 
         <div className='flex-1'>

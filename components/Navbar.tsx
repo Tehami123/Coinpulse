@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
+import SearchModal from './SearchModal';
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -17,7 +18,7 @@ const Navbar = () => {
         Home
       </Link>
 
-      <p>Search Modal</p>
+      <SearchModal />
 
       <Link
         className={cn('nav-link', {

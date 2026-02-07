@@ -323,3 +323,17 @@ interface PoolData {
   name: string;
   network: string;
 }
+
+interface Exchange {
+  id: string;
+  name: string;
+  year_established: number | null;
+  country: string | null;
+  description: string;
+  image?: string;
+  url?: string;
+  trust_score?: number;
+  trust_score_rank?: number;
+  trade_volume_24h_btc?: number;
+  [key: string]: unknown;
+}

@@ -17,7 +17,7 @@ const Coins = async ({ searchParams }: NextPageProps) => {
     per_page: "250",
   });
 
-  console.log(coinsData);
+  // console.log(coinsData);
   
 
   const totalPages = Math.ceil(coinsData.length / itemsPerPage);
@@ -35,6 +35,7 @@ const Coins = async ({ searchParams }: NextPageProps) => {
           totalPages={totalPages}
           itemsPerPage={itemsPerPage}
         />
+
       </div>
     </main>
   );

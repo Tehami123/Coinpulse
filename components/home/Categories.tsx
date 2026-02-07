@@ -75,7 +75,7 @@ const Categories = async () => {
     }
   ];
 
-  console.log(categories);
+  // console.log(categories);
 
   return (
     <div id="categories" className="custom-scrollbar">
