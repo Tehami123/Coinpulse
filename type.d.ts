@@ -13,8 +13,8 @@ interface CandlestickChartProps {
   children?: React.ReactNode;
   mode?: 'historical' | 'live';
   initialPeriod?: Period;
-  liveInterval: '1s' | '1m';
-  setLiveInterval: (interval: '1s' | '1m') => void;
+  // liveInterval: '1s' | '1m';
+  // setLiveInterval: (interval: '1s' | '1m') => void;
 }
 
 interface ConverterProps {
@@ -201,6 +201,8 @@ interface CoinDetailsData {
       usd: number;
       [key: string]: number;
     };
+    price_change_24h?: number | null;
+    price_change_percentage_24h?: number | null;
     price_change_24h_in_currency: {
       usd: number;
     };

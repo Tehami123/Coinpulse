@@ -66,7 +66,7 @@ const CandlestickChart = ({children,data,coinId,height = 400,initialPeriod='dail
       return;
     }
 
-    const showTime = ['daily','weekly','monthly']
+    const showTime = true
 
     const chart = createChart(container, {
 

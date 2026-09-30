@@ -1,5 +1,5 @@
 import { fetcher } from "@/lib/coingeko.actions";
-import { NextPageProps } from "@/type.d";
+// import { NextPageProps } from "@/type.d";
 import Image from "next/image";
 import Link from "next/link";
 import CoinsTable from "@/components/CoinsTable";
